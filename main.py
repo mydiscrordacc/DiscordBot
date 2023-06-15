@@ -75,7 +75,8 @@ def search_player():
 
     if member_id:
         # Формируем сообщение
-        message = f"1.<@{member_id}>"
+        message = f"1.<@{member_id}>" \
+                  f"2.Прослушал вводную лекцию"
 
         # Отправляем сообщение на вебхук Discord
         discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
