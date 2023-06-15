@@ -5,9 +5,11 @@ import os
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def index():
     return "Hello, world!"
+
 
 # Discord API endpoint for getting guild members
 url = "https://discord.com/api/v10/guilds/{guild_id}/members"
@@ -34,6 +36,7 @@ handler.setFormatter(formatter)
 # Добавление обработчика к логгеру приложения
 logger.addHandler(handler)
 
+
 def get_member_id_by_name(member_name):
     # Construct the request URL
     request_url = url.replace("{guild_id}", guild_id)
@@ -57,15 +60,16 @@ def get_member_id_by_name(member_name):
 
     return None
 
+
 @app.route("/search", methods=["POST"])
 def search_player():
     player_name = request.form.get("playerName")
-    
+
     # Убираем пробелы в начале и конце имени игрока
     player_name = player_name.strip()
 
     # Выводим данные из формы в журнал приложения
-    logger.debug(f"Received playerName from form: {player_name}")
+    logger.debug(f"Received playerName from form: {player_name.strip()}")
 
     member_id = get_member_id_by_name(player_name)
 
@@ -86,10 +90,6 @@ def search_player():
             return "Произошла ошибка при отправке упоминания в Discord."
     else:
         return "Игрок не найден."
-
-
-
-
 
 
 if __name__ == "__main__":
