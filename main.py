@@ -1,5 +1,6 @@
 from flask import Flask, request
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -9,10 +10,10 @@ def index():
 
 # Discord API endpoint for getting guild members
 url = "https://discord.com/api/v10/guilds/{guild_id}/members"
-guild_id = "1079844266727190668"  # Замените на ID вашего сервера Discord
+guild_id = os.getenv("DISCORD_GUILD_ID")  # Получаем ID сервера Discord из переменной окружения
 
 # Discord bot token for authentication
-token = "MTExODgzMjUxODQ0NDA5NzU2Ng.GrN8Z8.u_wdwKOYXhGValCyJox3dyKggIRW4K2Aq7eB-Q"  # Замените на токен вашего бота Discord
+token = os.getenv("DISCORD_BOT_TOKEN")  # Получаем токен бота Discord из переменной окружения
 headers = {
     "Authorization": f"Bot {token}"
 }
@@ -50,7 +51,7 @@ def search_player():
         message = f"Игрок {player_name} найден. <@{member_id}>"  # Используйте упоминание пользователя здесь
 
         # Отправляем сообщение на вебхук Discord
-        discord_webhook_url = "https://discord.com/api/webhooks/1118673768710144033/RwC_fIX-By29CheDDag2J0tkaZErmO3Bb6rUnUsV-F4K5UJTCWlNTZ0ixgpKr70AA41q"  # Замените на URL вашего вебхука Discord
+        discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")  # Получаем URL вебхука Discord из переменной окружения
         payload = {
             "content": message
         }
