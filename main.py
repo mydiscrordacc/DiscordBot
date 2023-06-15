@@ -43,10 +43,10 @@ def search_player():
 
     if member_id:
         # Формируем сообщение
-        message = f"Игрок {player_name} найден. ID: {member_id}"
+        message = f"Игрок {player_name} найден. <@{member_id}>"  # Используйте упоминание пользователя здесь
 
         # Отправляем сообщение на вебхук Discord
-        discord_webhook_url = "https://discord.com/api/webhooks/1118673768710144033/RwC_fIX-By29CheDDag2J0tkaZErmO3Bb6rUnUsV-F4K5UJTCWlNTZ0ixgpKr70AA41q"  # Замените на URL вашего вебхука Discord
+        discord_webhook_url = "https://discord.com/api/webhooks/your-webhook-id/your-webhook-token"  # Замените на URL вашего вебхука Discord
         payload = {
             "content": message
         }
@@ -62,6 +62,7 @@ def search_player():
             return "Произошла ошибка при отправке упоминания в Discord."
     else:
         return "Игрок не найден."
+
 
 if __name__ == "__main__":
     app.run()
