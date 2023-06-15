@@ -1,6 +1,7 @@
 from flask import Flask, request
 import requests
 import os
+app.logger.setLevel(logging.DEBUG)
 
 app = Flask(__name__)
 
@@ -44,6 +45,10 @@ def get_member_id_by_name(member_name):
 @app.route("/search", methods=["POST"])
 def search_player():
     player_name = request.form.get("playerName")
+    
+    # Выводим данные из формы в журнал приложения
+    app.logger.debug(f"Received playerName from form: {player_name}")
+
     member_id = get_member_id_by_name(player_name)
 
     if member_id:
