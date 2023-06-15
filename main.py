@@ -10,7 +10,7 @@ url = "https://discord.com/api/v10/guilds/{guild_id}/members"
 guild_id = os.getenv("DISCORD_GUILD_ID")  # Получаем ID сервера Discord из переменной окружения
 
 # Discord bot token for authentication
-token = os.getenv("DISCORD_BOT_TOKEN")  # Получаем токен бота Discord из переменной окружения
+token = os.getenv("DISCORD_TOKEN")  # Получаем токен бота Discord из переменной окружения
 headers = {
     "Authorization": f"Bot {token}"
 }
