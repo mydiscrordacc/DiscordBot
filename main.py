@@ -59,34 +59,39 @@ def get_member_id_by_name(member_name):
 
 @app.route("/search", methods=["POST"])
 def search_player():
-    player_name = request.form.get("playerName")
-    
-    # Вывод данных из формы в журнал приложения
-    logger.debug(f"Received playerName from form: {player_name}")
+    player_names = request.form.getlist("playerName")  # Получаем список значений из поля playerName
 
-    member_id = get_member_id_by_name(player_name)
+    # Убираем лишние пробелы в начале и конце каждого имени игрока
+    player_names = [name.strip() for name in player_names]
 
-    if member_id:
+    # Выводим данные из формы в журнал приложения
+    logger.debug(f"Received playerNames from form: {player_names}")
+
+    member_ids = []
+    for player_name in player_names:
+        member_id = get_member_id_by_name(player_name)
+        if member_id:
+            member_ids.append(member_id)
+
+    if member_ids:
         # Формируем сообщение
-        message = f"Игрок {player_name} найден. <@{member_id}>"  # Используйте упоминание пользователя здесь
+        mention_list = " ".join([f"<@{member_id}>" for member_id in member_ids])
+        message = f"Игроки {', '.join(player_names)} найдены. {mention_list}"
 
         # Отправляем сообщение на вебхук Discord
-        discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")  # Получаем URL вебхука Discord из переменной окружения
-        payload = {
-            "content": message
-        }
-        headers = {
-            "Content-Type": "application/json"
-        }
+        discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+        payload = {"content": message}
+        headers = {"Content-Type": "application/json"}
 
         response = requests.post(discord_webhook_url, json=payload, headers=headers)
 
         if response.status_code == 204:
-            return "Упоминание успешно отправлено в Discord."
+            return "Упоминания успешно отправлены в Discord."
         else:
-            return "Произошла ошибка при отправке упоминания в Discord."
+            return "Произошла ошибка при отправке упоминаний в Discord."
     else:
-        return "Игрок не найден."
+        return "Игроки не найдены."
+
 
 
 if __name__ == "__main__":
