@@ -3,6 +3,10 @@ import requests
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return "Hello, world!"
+
 # Discord API endpoint for getting guild members
 url = "https://discord.com/api/v10/guilds/{guild_id}/members"
 guild_id = "1079844266727190668"  # Замените на ID вашего сервера Discord
