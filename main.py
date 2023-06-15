@@ -59,9 +59,9 @@ def get_member_id_by_name(member_name):
 
 @app.route("/search", methods=["POST"])
 def search_player():
-    player_name = request.form.get("playerName")  # Получаем значение поля playerName
-
-    # Убираем лишние пробелы в начале и конце имени игрока
+    player_name = request.form.get("playerName")
+    
+    # Убираем пробелы в начале и конце имени игрока
     player_name = player_name.strip()
 
     # Выводим данные из формы в журнал приложения
@@ -86,6 +86,7 @@ def search_player():
             return "Произошла ошибка при отправке упоминания в Discord."
     else:
         return "Игрок не найден."
+
 
 
 
