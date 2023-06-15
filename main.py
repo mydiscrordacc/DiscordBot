@@ -1,7 +1,7 @@
 from flask import Flask, request
 import requests
 import os
-import logging
+
 
 app = Flask(__name__)
 
@@ -21,15 +21,13 @@ headers = {
     "Authorization": f"Bot {token}"
 }
 
-logging.basicConfig(level=logging.DEBUG)
+
 
 
 @app.route("/search", methods=["POST"])
 def search_player():
     player_name = request.form.get("playerName")
 
-    # Логирование имени игрока
-    logging.debug(f"Received player name: '{player_name}'")
 
     member_id = get_member_id_by_name(player_name)
 
