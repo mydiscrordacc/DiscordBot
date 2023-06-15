@@ -75,7 +75,7 @@ def search_player():
 
     if member_id:
         # Формируем сообщение
-        message = f"Игрок {player_name} найден. <@{member_id}>"
+        message = f"1.<@{member_id}>"
 
         # Отправляем сообщение на вебхук Discord
         discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
