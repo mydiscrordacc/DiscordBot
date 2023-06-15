@@ -2,14 +2,11 @@ from flask import Flask, request
 import requests
 import os
 
-
 app = Flask(__name__)
-
 
 @app.route("/")
 def index():
     return "Hello, world!"
-
 
 # Discord API endpoint for getting guild members
 url = "https://discord.com/api/v10/guilds/{guild_id}/members"
@@ -20,19 +17,6 @@ token = os.getenv("DISCORD_BOT_TOKEN")  # Получаем токен бота D
 headers = {
     "Authorization": f"Bot {token}"
 }
-
-
-
-
-@app.route("/search", methods=["POST"])
-def search_player():
-    player_name = request.form.get("playerName")
-
-
-    member_id = get_member_id_by_name(player_name)
-
-    ...
-
 
 def get_member_id_by_name(member_name):
     # Construct the request URL
@@ -57,13 +41,9 @@ def get_member_id_by_name(member_name):
 
     return None
 
-logging.basicConfig(level=logging.DEBUG)  # Добавляем настройки логирования
 @app.route("/search", methods=["POST"])
 def search_player():
     player_name = request.form.get("playerName")
-
-    logging.debug(f"Received player name: '{player_name}'")  # Логируем имя игрока
-    
     member_id = get_member_id_by_name(player_name)
 
     if member_id:
