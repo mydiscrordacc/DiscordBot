@@ -12,7 +12,7 @@ url = "https://discord.com/api/v10/guilds/{guild_id}/members"
 guild_id = "1079844266727190668"  # Замените на ID вашего сервера Discord
 
 # Discord bot token for authentication
-token = "MTExODgzMjUxODQ0NDA5NzU2Ng.G5uNC_.Key_J3qs-KC9JnhG_s48S2KseTfUpMv6ftkImA"  # Замените на токен вашего бота Discord
+token = "MTExODgzMjUxODQ0NDA5NzU2Ng.GrN8Z8.u_wdwKOYXhGValCyJox3dyKggIRW4K2Aq7eB-Q"  # Замените на токен вашего бота Discord
 headers = {
     "Authorization": f"Bot {token}"
 }
