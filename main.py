@@ -59,24 +59,19 @@ def get_member_id_by_name(member_name):
 
 @app.route("/search", methods=["POST"])
 def search_player():
-    player_names = request.form.getlist("playerName")  # Получаем список значений из поля playerName
+    player_name = request.form.get("playerName")  # Получаем значение поля playerName
 
-    # Убираем лишние пробелы в начале и конце каждого имени игрока
-    player_names = [name.strip() for name in player_names]
+    # Убираем лишние пробелы в начале и конце имени игрока
+    player_name = player_name.strip()
 
     # Выводим данные из формы в журнал приложения
-    logger.debug(f"Received playerNames from form: {player_names}")
+    logger.debug(f"Received playerName from form: {player_name}")
 
-    member_ids = []
-    for player_name in player_names:
-        member_id = get_member_id_by_name(player_name)
-        if member_id:
-            member_ids.append(member_id)
+    member_id = get_member_id_by_name(player_name)
 
-    if member_ids:
+    if member_id:
         # Формируем сообщение
-        mention_list = " ".join([f"<@{member_id}>" for member_id in member_ids])
-        message = f"Игроки {', '.join(player_names)} найдены. {mention_list}"
+        message = f"Игрок {player_name} найден. <@{member_id}>"
 
         # Отправляем сообщение на вебхук Discord
         discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
@@ -86,11 +81,12 @@ def search_player():
         response = requests.post(discord_webhook_url, json=payload, headers=headers)
 
         if response.status_code == 204:
-            return "Упоминания успешно отправлены в Discord."
+            return "Упоминание успешно отправлено в Discord."
         else:
-            return "Произошла ошибка при отправке упоминаний в Discord."
+            return "Произошла ошибка при отправке упоминания в Discord."
     else:
-        return "Игроки не найдены."
+        return "Игрок не найден."
+
 
 
 
