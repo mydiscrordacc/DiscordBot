@@ -41,7 +41,9 @@ def get_member_id_by_name(member_name):
     }
 
     # Send the request to Discord API to get all guild members
+    logger.debug(f"Sending request to Discord API: {request_url}")
     response = requests.get(request_url, headers=headers, params=params)
+    logger.debug(f"Response from Discord API: {response.text}")
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -66,6 +68,7 @@ def search_player():
     logger.debug(f"Received playerName from form: {player_name}")
 
     if not player_name:
+        logger.debug("No player name provided")
         return "Пожалуйста, введите никнейм игрока."
 
     member_id = get_member_id_by_name(player_name)
@@ -77,18 +80,21 @@ def search_player():
         # Отправляем сообщение на вебхук Discord
         discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
         if not discord_webhook_url:
+            logger.debug("No Discord webhook URL configured")
             return "Webhook URL для Discord не настроен."
 
         payload = {"content": message}
         headers = {"Content-Type": "application/json"}
 
         response = requests.post(discord_webhook_url, json=payload, headers=headers)
+        logger.debug(f"Response from Discord webhook: {response.text}")
 
         if response.status_code == 204:
             return "Упоминание успешно отправлено в Discord."
         else:
             return "Произошла ошибка при отправке упоминания в Discord."
     else:
+        logger.debug(f"Player not found: {player_name}")
         return "Игрок не найден."
 
 
