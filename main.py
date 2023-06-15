@@ -1,7 +1,7 @@
+import logging
 from flask import Flask, request
 import requests
 import os
-app.logger.setLevel(logging.DEBUG)
 
 app = Flask(__name__)
 
@@ -18,6 +18,21 @@ token = os.getenv("DISCORD_BOT_TOKEN")  # Получаем токен бота D
 headers = {
     "Authorization": f"Bot {token}"
 }
+
+# Создание объекта логгера для вашего приложения
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Настройка обработчика для записи в журнал
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+
+# Настройка формата записей в журнал
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# Добавление обработчика к логгеру приложения
+logger.addHandler(handler)
 
 def get_member_id_by_name(member_name):
     # Construct the request URL
@@ -46,8 +61,8 @@ def get_member_id_by_name(member_name):
 def search_player():
     player_name = request.form.get("playerName")
     
-    # Выводим данные из формы в журнал приложения
-    app.logger.debug(f"Received playerName from form: {player_name}")
+    # Вывод данных из формы в журнал приложения
+    logger.debug(f"Received playerName from form: {player_name}")
 
     member_id = get_member_id_by_name(player_name)
 
