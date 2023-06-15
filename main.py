@@ -5,12 +5,6 @@ import os
 
 app = Flask(__name__)
 
-
-@app.route("/")
-def index():
-    return "Hello, world!"
-
-
 # Discord API endpoint for getting guild members
 url = "https://discord.com/api/v10/guilds/{guild_id}/members"
 guild_id = os.getenv("DISCORD_GUILD_ID")  # Получаем ID сервера Discord из переменной окружения
@@ -69,7 +63,10 @@ def search_player():
     player_name = player_name.strip()
 
     # Выводим данные из формы в журнал приложения
-    logger.debug(f"Received playerName from form: {player_name.strip()}")
+    logger.debug(f"Received playerName from form: {player_name}")
+
+    if not player_name:
+        return "Пожалуйста, введите никнейм игрока."
 
     member_id = get_member_id_by_name(player_name)
 
@@ -79,6 +76,9 @@ def search_player():
 
         # Отправляем сообщение на вебхук Discord
         discord_webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+        if not discord_webhook_url:
+            return "Webhook URL для Discord не настроен."
+
         payload = {"content": message}
         headers = {"Content-Type": "application/json"}
 
